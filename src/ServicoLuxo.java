@@ -1,0 +1,3 @@
+interface ServicoLuxo {
+    void oferecerServicoPremium();
+}
