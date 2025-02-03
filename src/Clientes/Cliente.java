@@ -1,4 +1,6 @@
-abstract class Cliente {
+package Clientes;
+
+public abstract class Cliente {
     public String id;
     protected String nome;
     protected String documento;

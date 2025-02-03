@@ -1,4 +1,8 @@
-class Locacao{
+package Veiculos;
+
+import Clientes.Cliente;
+
+public class Locacao{
     private Cliente cliente;
     private Veiculo veiculo;
     private int dias;
@@ -12,7 +16,7 @@ class Locacao{
     public void realizarLocacao(){
         if (veiculo.isDisponivel()){
             veiculo.alugar();
-            double.valor = veiculo.calcularValorLocacao( dias );
+            double valor = veiculo.calcularValorLocacao( dias );
             System.out.println("Locação realizada com sucesso! Valor total:R$ " + valor);
         }else{
             System.out.println("Veículo indisponível para locação.");
