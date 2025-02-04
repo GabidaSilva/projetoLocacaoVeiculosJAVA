@@ -1,4 +1,6 @@
-abstract class Veiculo{
+package Veiculos;
+
+public abstract class Veiculo{
     public String id;
     protected String modelo;
     protected String placa;
