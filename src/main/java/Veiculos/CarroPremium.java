@@ -6,7 +6,13 @@ public class CarroPremium extends Veiculo implements ServicoLuxo {
     }
 
     @Override
+    public String getTipo() {
+        return "Carro Premium";
+    }
+
+    @Override
     public void oferecerServicoPremium(){
-        System.out.println("Serviço de luxo ativado para "+ modelo);
+        System.out.println("Serviço de luxo ativado para " + getModelo());
     }
 }
+
