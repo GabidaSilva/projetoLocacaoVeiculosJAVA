@@ -1,6 +1,6 @@
 package Veiculos;
 
-class CarroSUV extends Veiculo implements ServicoLuxo{
+class  CarroSUV extends Veiculo implements ServicoLuxo{
     public CarroSUV (String modelo, String placa, double valorDiaria){
         super(modelo, placa, valorDiaria);
     }
