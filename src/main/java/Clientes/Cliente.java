@@ -1,24 +1,41 @@
 package Clientes;
 
-public abstract class Cliente {
-    public String id;
+import Veiculos.Veiculo;
+
+public class Cliente {
+    protected String id;
     protected String nome;
     protected String documento;
     protected String endereco;
     protected String telefone;
     protected int diasLocacao;
 
-    public Cliente(String id, String nome, String documento, String endereco, String telefone, int diasLocacao) {
+    // Construtor
+    public Cliente(String id, String nome, String documento, String endereco, String telefone) {
         this.id = id;
         this.nome = nome;
         this.documento = documento;
         this.endereco = endereco;
         this.telefone = telefone;
+    }
+
+    // Getter e Setter para diasLocacao
+    public int getDiasLocacao() {
+        return diasLocacao;
+    }
+
+    public void setDiasLocacao(int diasLocacao) {
         this.diasLocacao = diasLocacao;
     }
 
-    // Método abstrato para exibir detalhes da locação, a ser implementado pelas subclasses
-    public abstract void exibirDetalhesLocacao(Veiculos.Veiculo veiculo);
-}
 
+    public String getNome() {
+        return this.nome;
+    }
+
+
+    public void exibirDetalhesLocacao(Veiculo veiculo) {
+        System.out.println(this.nome + " alugou o veículo " + veiculo.getModelo());
+    }
+}
 
