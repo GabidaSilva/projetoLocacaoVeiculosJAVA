@@ -73,6 +73,8 @@ public class GerenciamentoDeVeiculos {
         Veiculo veiculo = buscarVeiculo(modelo);
         if (veiculo != null && veiculo.isDisponivel()) {
             veiculo.alugar();
+            // Comentado a linha abaixo para não imprimir "Veículo [modelo] alugado"
+            // System.out.println("Veículo " + veiculo.getModelo() + " alugado.");
         } else {
             if (veiculo != null) {
                 System.out.println("O veículo " + modelo + " não está disponível para aluguel.");

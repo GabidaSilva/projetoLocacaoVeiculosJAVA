@@ -6,6 +6,8 @@ public class Moto extends Veiculo {
     }
 
 
+
+
     @Override
     public String getTipo() { return "Moto"; }
 }
