@@ -1,10 +1,19 @@
 package Veiculos;
 
 public class CarroPremium extends Veiculo implements ServicoLuxo {
-    private boolean cambioAutomaticoAtivo = true;
 
-    public CarroPremium(String modelo, String placa, double valorDiaria) {
+    private boolean cambioAutomatico;
+    private boolean computadorBordo;
+
+    public CarroPremium(String modelo, String placa, double valorDiaria){
         super(modelo, placa, valorDiaria);
+        this.cambioAutomatico = true;
+        this.computadorBordo = true;
+    }
+
+    @Override
+    public boolean ofereceServicoLuxo() {
+        return true; // Carro Premium oferece dois diferenciais do luxo
     }
 
     @Override
@@ -13,10 +22,8 @@ public class CarroPremium extends Veiculo implements ServicoLuxo {
     }
 
     @Override
-    public void oferecerServicoPremium() {
-        System.out.println("Serviço Premium " + getModelo());
-
-        // Exibindo que o carro possui câmbio automático
-        System.out.println("Este carro está equipado com câmbio automático.");
+    public void oferecerServicoPremium(){
+        System.out.println("Serviço de luxo ativado para " + getModelo());
     }
 }
+
