@@ -37,5 +37,13 @@ public class Cliente {
     public void exibirDetalhesLocacao(Veiculo veiculo) {
         System.out.println(this.nome + " alugou o veículo " + veiculo.getModelo());
     }
+
+    public String getId() {
+        return "";
+    }
+
+    public String getDocumento() {
+        return null;
+    }
 }
 

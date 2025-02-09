@@ -1,111 +1,248 @@
-import Clientes.PessoaFisica;
-import Clientes.PessoaJuridica;
-import Veiculos.CarroComum;
-import Veiculos.Moto;
-import Veiculos.Caminhao;
-import Veiculos.CarroPremium;
+import Clientes.Cliente;
 import Veiculos.Veiculo;
-import Clientes.GerenciamentoDeVeiculos;
-import Veiculos.Locacao;
+
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
+    private static ArrayList<Cliente> clientes = new ArrayList<>();
+    private static ArrayList<Veiculo> veiculos = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
-        // Criando o sistema de gerenciamento de veículos
-        GerenciamentoDeVeiculos sistemaGerenciamento = new GerenciamentoDeVeiculos();
+        int opcao;
+        do {
+            exibirMenu();
+            opcao = scanner.nextInt();
+            scanner.nextLine(); // Consumir a quebra de linha
 
-        // Criando alguns veículos
-        Veiculo carro1 = new CarroComum("Palio", "ABC-1234", 100.0);
-        Veiculo carro2 = new CarroComum("Civic", "XYZ-5678", 200.0);
-        Veiculo carroPremium1 = new CarroPremium("Audi A8", "AAA-9876", 500.0);
-        Veiculo moto1 = new Moto("Honda CB500", "CBR-9012", 50.00);
-        Veiculo caminhao1 = new Caminhao("Volvo VM 330", "CBA-4321", 3000.00);
-        Veiculo caminhao2 = new Caminhao("Daf CF85", "CFG-2169", 4000.00);
+            switch (opcao) {
+                case 1:
+                    cadastrarCliente();
+                    break;
+                case 2:
+                    listarClientes();
+                    break;
+                case 3:
+                    removerCliente();
+                    break;
+                case 4:
+                    cadastrarVeiculo();
+                    break;
+                case 5:
+                    listarVeiculos();
+                    break;
+                case 6:
+                    removerVeiculo();
+                    break;
+                case 7:
+                    alugarVeiculo();
+                    break;
+                case 8:
+                    devolverVeiculo();
+                    break;
+                case 9:
+                    listarVeiculosDisponiveis();
+                    break;
+                case 10:
+                    listarVeiculosLocados();
+                    break;
+                case 0:
+                    System.out.println("Saindo do sistema...");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while (opcao != 0);
 
-        // Adicionando os veículos ao sistema de gerenciamento
-        sistemaGerenciamento.adicionarVeiculo(carro1);
-        sistemaGerenciamento.adicionarVeiculo(carro2);
-        sistemaGerenciamento.adicionarVeiculo(carroPremium1);
-        sistemaGerenciamento.adicionarVeiculo(moto1);
-        sistemaGerenciamento.adicionarVeiculo(caminhao1);
-        sistemaGerenciamento.adicionarVeiculo(caminhao2);
+        scanner.close();
+    }
 
-        // Criando clientes
-        PessoaFisica cliente1 = new PessoaFisica("1", "João Silva", "123.456.789-00", "Rua A", "1234-5678");
-        cliente1.setDiasLocacao(5);
-        PessoaFisica cliente2 = new PessoaFisica("2", "Luiz", "987.654.321-00", "Rua C", "9876-5432");
-        cliente2.setDiasLocacao(2);
-        PessoaFisica cliente3 = new PessoaFisica("3", "Breno", "897.123.465-00", "Rua E", "9983-651");
-        cliente3.setDiasLocacao(4);
-        PessoaJuridica cliente4 = new PessoaJuridica("4", "Empresa X", "12.345.678/0001-90", "Rua B", "9876-5432");
-        cliente4.setDiasLocacao(7);
-        PessoaJuridica cliente5 = new PessoaJuridica("5", "LCSR", "876.543.210/0001-70", "Rua D", "9722-5858");
-        cliente5.setDiasLocacao(3);
-        PessoaJuridica cliente6 = new PessoaJuridica("6", "Daza", "65.235.874/001-50", "Rua O", "977-6969");
-        cliente6.setDiasLocacao(6);
+    private static void exibirMenu() {
+        System.out.println("\n=== MENU DE OPÇÕES ===");
+        System.out.println("1. Cadastrar cliente");
+        System.out.println("2. Listar clientes");
+        System.out.println("3. Remover cliente");
+        System.out.println("4. Cadastrar veículo");
+        System.out.println("5. Listar veículos");
+        System.out.println("6. Remover veículo");
+        System.out.println("7. Alugar veículo");
+        System.out.println("8. Devolver veículo alugado");
+        System.out.println("9. Listar veículos disponíveis");
+        System.out.println("10. Listar veículos locados");
+        System.out.println("0. Sair");
+        System.out.print("Escolha uma opção: ");
+    }
 
-        // Realizando locações para cada cliente
-        Locacao locacao1 = new Locacao(cliente1, carro1);
-        Locacao locacao2 = new Locacao(cliente2, carro2);
-        Locacao locacao3 = new Locacao(cliente3, carroPremium1);
-        Locacao locacao4 = new Locacao(cliente4, caminhao1);
-        Locacao locacao5 = new Locacao(cliente5, caminhao2);
-        Locacao locacao6 = new Locacao(cliente6, moto1);
+    private static void cadastrarCliente() {
+        System.out.print("Nome do cliente: ");
+        String nome = scanner.nextLine();
+        System.out.print("Documento (CPF/CNPJ): ");
+        String documento = scanner.nextLine();
+        System.out.print("Endereço: ");
+        String endereco = scanner.nextLine();
+        System.out.print("Telefone: ");
+        String telefone = scanner.nextLine();
 
-        // Realizando as locações
-        locacao1.realizarLocacao();
-        locacao2.realizarLocacao();
-        locacao3.realizarLocacao();
-        locacao4.realizarLocacao();
-        locacao5.realizarLocacao();
-        locacao6.realizarLocacao();
+        Cliente cliente = new Cliente(String.valueOf(clientes.size() + 1), nome, documento, endereco, telefone);
+        clientes.add(cliente);
+        System.out.println("Cliente cadastrado com sucesso!");
+    }
 
-        // Exibindo os detalhes de locação de forma simplificada
-        System.out.println("-------------- Início da Locação --------------");
-        System.out.println(cliente1.getNome() + " alugou o veículo: " + carro1.getModelo());
-        System.out.println(cliente2.getNome() + " alugou o veículo: " + carro2.getModelo());
-        System.out.println(cliente3.getNome() + " alugou o veículo: " + carroPremium1.getModelo());
+    private static void listarClientes() {
+        if (clientes.isEmpty()) {
+            System.out.println("Não há clientes cadastrados.");
+        } else {
+            System.out.println("=== LISTA DE CLIENTES ===");
+            for (Cliente cliente : clientes) {
+                System.out.println("ID: " + cliente.getId() + ", Nome: " + cliente.getNome() + ", Documento: " + cliente.getDocumento());
+            }
+        }
+    }
 
-        // Se o veículo for premium, adiciona o detalhe do câmbio automático
-        if (carroPremium1 instanceof CarroPremium) {
-            System.out.println(carroPremium1.getModelo() + " tem câmbio automático.");
+    private static void removerCliente() {
+        System.out.print("Digite o ID do cliente a ser removido: ");
+        String id = scanner.nextLine();
+        Cliente clienteRemover = null;
+        for (Cliente cliente : clientes) {
+            if (cliente.getId().equals(id)) {
+                clienteRemover = cliente;
+                break;
+            }
+        }
+        if (clienteRemover != null) {
+            clientes.remove(clienteRemover);
+            System.out.println("Cliente removido com sucesso!");
+        } else {
+            System.out.println("Cliente não encontrado.");
+        }
+    }
+
+    private static void cadastrarVeiculo() {
+        System.out.print("Modelo do veículo: ");
+        String modelo = scanner.nextLine();
+        System.out.print("Placa: ");
+        String placa = scanner.nextLine();
+        System.out.print("Valor da diária: ");
+        double valorDiaria = scanner.nextDouble();
+        scanner.nextLine(); // Consumir a quebra de linha
+
+        Veiculo veiculo = new Veiculo(modelo, placa, valorDiaria) {
+            @Override
+            public String getTipo() {
+                return "Genérico";
+            }
+        };
+        veiculos.add(veiculo);
+        System.out.println("Veículo cadastrado com sucesso!");
+    }
+
+    private static void listarVeiculos() {
+        if (veiculos.isEmpty()) {
+            System.out.println("Não há veículos cadastrados.");
+        } else {
+            System.out.println("=== LISTA DE VEÍCULOS ===");
+            for (Veiculo veiculo : veiculos) {
+                System.out.println("Modelo: " + veiculo.getModelo() + ", Placa: " + veiculo.getPlaca() + ", Disponível: " + (veiculo.isDisponivel() ? "Sim" : "Não"));
+            }
+        }
+    }
+
+    private static void removerVeiculo() {
+        System.out.print("Digite a placa do veículo a ser removido: ");
+        String placa = scanner.nextLine();
+        Veiculo veiculoRemover = null;
+        for (Veiculo veiculo : veiculos) {
+            if (veiculo.getPlaca().equals(placa)) {
+                veiculoRemover = veiculo;
+                break;
+            }
+        }
+        if (veiculoRemover != null) {
+            veiculos.remove(veiculoRemover);
+            System.out.println("Veículo removido com sucesso!");
+        } else {
+            System.out.println("Veículo não encontrado.");
+        }
+    }
+
+    private static void alugarVeiculo() {
+        System.out.print("Digite o ID do cliente: ");
+        String idCliente = scanner.nextLine();
+        System.out.print("Digite a placa do veículo: ");
+        String placaVeiculo = scanner.nextLine();
+
+        Cliente cliente = null;
+        Veiculo veiculo = null;
+
+        for (Cliente c : clientes) {
+            if (c.getId().equals(idCliente)) {
+                cliente = c;
+                break;
+            }
         }
 
-        System.out.println(cliente4.getNome() + " alugou o veículo: " + caminhao1.getModelo());
-        System.out.println(cliente5.getNome() + " alugou o veículo: " + caminhao2.getModelo());
-        System.out.println(cliente6.getNome() + " alugou o veículo: " + moto1.getModelo());
-        System.out.println("-------------- Fim da Locação --------------");
+        for (Veiculo v : veiculos) {
+            if (v.getPlaca().equals(placaVeiculo) && v.isDisponivel()) {
+                veiculo = v;
+                break;
+            }
+        }
 
-        System.out.println();
+        if (cliente != null && veiculo != null) {
+            veiculo.alugar();
+            System.out.println("Veículo alugado com sucesso para " + cliente.getNome());
+        } else {
+            System.out.println("Não foi possível realizar a locação. Verifique os dados informados.");
+        }
+    }
 
-        // Devolvendo os veículos e mostrando apenas o valor total
-        System.out.println("-------------- Início da Devolução --------------");
+    private static void devolverVeiculo() {
+        System.out.print("Digite a placa do veículo a ser devolvido: ");
+        String placaVeiculo = scanner.nextLine();
 
-        System.out.println(cliente1.getNome() + " devolveu o veículo: " + carro1.getModelo() + ". Valor da locação: R$ " + locacao1.calcularValorLocacao());
-        locacao1.devolver();
+        Veiculo veiculo = null;
+        for (Veiculo v : veiculos) {
+            if (v.getPlaca().equals(placaVeiculo) && !v.isDisponivel()) {
+                veiculo = v;
+                break;
+            }
+        }
 
-        System.out.println(cliente2.getNome() + " devolveu o veículo: " + carro2.getModelo() + ". Valor da locação: R$ " + locacao2.calcularValorLocacao());
-        locacao2.devolver();
+        if (veiculo != null) {
+            veiculo.devolver();
+            System.out.println("Veículo devolvido com sucesso!");
+        } else {
+            System.out.println("Veículo não encontrado ou não está alugado.");
+        }
+    }
 
-        System.out.println(cliente3.getNome() + " devolveu o veículo: " + carroPremium1.getModelo() + ". Valor da locação: R$ " + locacao3.calcularValorLocacao());
-        locacao3.devolver();
+    private static void listarVeiculosDisponiveis() {
+        System.out.println("=== VEÍCULOS DISPONÍVEIS ===");
+        boolean temDisponivel = false;
+        for (Veiculo veiculo : veiculos) {
+            if (veiculo.isDisponivel()) {
+                System.out.println("Modelo: " + veiculo.getModelo() + ", Placa: " + veiculo.getPlaca());
+                temDisponivel = true;
+            }
+        }
+        if (!temDisponivel) {
+            System.out.println("Não há veículos disponíveis no momento.");
+        }
+    }
 
-        System.out.println(cliente4.getNome() + " devolveu o veículo: " + caminhao1.getModelo() + ". Valor da locação: R$ " + locacao4.calcularValorLocacao());
-        locacao4.devolver();
-
-        System.out.println(cliente5.getNome() + " devolveu o veículo: " + caminhao2.getModelo() + ". Valor da locação: R$ " + locacao5.calcularValorLocacao());
-        locacao5.devolver();
-
-        System.out.println(cliente6.getNome() + " devolveu o veículo: " + moto1.getModelo() + ". Valor da locação: R$ " + locacao6.calcularValorLocacao());
-        locacao6.devolver();
-
-        System.out.println("-------------- Fim da Devolução --------------");
-
-        System.out.println();
-
-        // Listando veículos disponíveis após a devolução
-        System.out.println("-------------- Veículos Disponíveis --------------");
-        sistemaGerenciamento.listarVeiculosDisponiveis();
-        System.out.println("-------------- Fim da Listagem --------------");
+    private static void listarVeiculosLocados() {
+        System.out.println("=== VEÍCULOS LOCADOS ===");
+        boolean temLocado = false;
+        for (Veiculo veiculo : veiculos) {
+            if (!veiculo.isDisponivel()) {
+                System.out.println("Modelo: " + veiculo.getModelo() + ", Placa: " + veiculo.getPlaca());
+                temLocado = true;
+            }
+        }
+        if (!temLocado) {
+            System.out.println("Não há veículos locados no momento.");
+        }
     }
 }
 
