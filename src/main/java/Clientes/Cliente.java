@@ -39,11 +39,12 @@ public class Cliente {
     }
 
     public String getId() {
+
         return this.id;
     }
 
     public String getDocumento() {
-        return null;
+        return this.documento;
     }
 }
 
