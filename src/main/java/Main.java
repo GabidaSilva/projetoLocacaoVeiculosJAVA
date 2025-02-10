@@ -1,5 +1,5 @@
 import Clientes.Cliente;
-import Veiculos.Veiculo;
+import Veiculos.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -77,8 +77,36 @@ public class Main {
     private static void cadastrarCliente() {
         System.out.print("Nome do cliente: ");
         String nome = scanner.nextLine();
-        System.out.print("Documento (CPF/CNPJ): ");
-        String documento = scanner.nextLine();
+        System.out.println("Pessoa física (1) ou Pessoa Jurídica (2)?");
+        int tipoCliente = scanner.nextInt();
+        while (tipoCliente != 1 && tipoCliente != 2) {
+            System.out.println("Pessoa física (1) ou Pessoa Jurídica (2)?");
+            tipoCliente = scanner.nextInt();
+        }
+        String documento = "";
+        switch (tipoCliente) {
+                case 1: {
+                    System.out.print("Favor inserir o CPF (11 dígitos): ");
+                    scanner.nextLine();
+                    documento = scanner.nextLine();
+                        while (documento.length() != 11) {
+                            System.out.print("Favor inserir o CPF (11 dígitos): ");
+                            documento = scanner.nextLine();
+                    }
+                        break;
+                }
+                case 2: {
+                    System.out.print("Documento CNPJ: ");
+                    scanner.nextLine();
+                    documento = scanner.nextLine();
+                    while (documento.length() != 14) {
+                        System.out.print("Favor inserir o CNPJ (14 dígitos): ");
+                        documento = scanner.nextLine();
+                    }
+                    break;
+                }
+        }
+
         System.out.print("Endereço: ");
         String endereco = scanner.nextLine();
         System.out.print("Telefone: ");
@@ -119,7 +147,20 @@ public class Main {
     }
 
     private static void cadastrarVeiculo() {
+        System.out.println("Qual o tipo do veículo?");
+        System.out.println("1. Caminhao");
+        System.out.println("2. Carro Comum");
+        System.out.println("3. Carro Premium");
+        System.out.println("4. Carro SUV");
+        System.out.println("5. Moto");
+        int tipoVeiculo = scanner.nextInt();
+        while (tipoVeiculo < 1 || tipoVeiculo > 5) {
+            System.out.println("Insira um número válido:");
+            tipoVeiculo = scanner.nextInt();
+        }
+
         System.out.print("Modelo do veículo: ");
+        scanner.nextLine();
         String modelo = scanner.nextLine();
         System.out.print("Placa: ");
         String placa = scanner.nextLine();
@@ -127,13 +168,23 @@ public class Main {
         double valorDiaria = scanner.nextDouble();
         scanner.nextLine(); // Consumir a quebra de linha
 
-        Veiculo veiculo = new Veiculo(modelo, placa, valorDiaria) {
-            @Override
-            public String getTipo() {
-                return "Genérico";
-            }
-        };
-        veiculos.add(veiculo);
+        switch (tipoVeiculo) {
+            case 1:
+                Caminhao caminhao = new Caminhao(modelo, placa, valorDiaria);
+                veiculos.add(caminhao);
+            case 2:
+                CarroComum carroComum = new CarroComum(modelo, placa, valorDiaria);
+                veiculos.add(carroComum);
+            case 3:
+                CarroPremium carroPremium = new CarroPremium(modelo, placa, valorDiaria);
+                veiculos.add(carroPremium);
+            case 4:
+                CarroSUV carroSUV = new CarroSUV(modelo, placa, valorDiaria);
+                veiculos.add(carroSUV);
+            case 5:
+                Moto moto = new Moto(modelo, placa, valorDiaria);
+                veiculos.add(moto);
+        }
         System.out.println("Veículo cadastrado com sucesso!");
     }
 

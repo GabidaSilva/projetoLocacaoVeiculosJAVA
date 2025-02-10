@@ -1,6 +1,6 @@
 package Veiculos;
 
-class CarroSUV extends Veiculo implements ServicoLuxo{
+public class CarroSUV extends Veiculo implements ServicoLuxo{
 
     private boolean cambioAutomatico;
     private boolean computadorBordo;
