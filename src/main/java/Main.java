@@ -172,18 +172,23 @@ public class Main {
             case 1:
                 Caminhao caminhao = new Caminhao(modelo, placa, valorDiaria);
                 veiculos.add(caminhao);
+                break;
             case 2:
                 CarroComum carroComum = new CarroComum(modelo, placa, valorDiaria);
                 veiculos.add(carroComum);
+                break;
             case 3:
                 CarroPremium carroPremium = new CarroPremium(modelo, placa, valorDiaria);
                 veiculos.add(carroPremium);
+                break;
             case 4:
                 CarroSUV carroSUV = new CarroSUV(modelo, placa, valorDiaria);
                 veiculos.add(carroSUV);
+                break;
             case 5:
                 Moto moto = new Moto(modelo, placa, valorDiaria);
                 veiculos.add(moto);
+                break;
         }
         System.out.println("Veículo cadastrado com sucesso!");
     }
