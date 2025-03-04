@@ -1,235 +1,143 @@
-import Clientes.Cliente;
-import Veiculos.*;
+import Clientes.*;
+import Produtos.*;
+import SistemaDePagamentos.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static ArrayList<Cliente> clientes = new ArrayList<>();
-    private static ArrayList<Veiculo> veiculos = new ArrayList<>();
+    private static List<Cliente> clientes = new ArrayList<>();
+    private static List<Produto> produtos = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         int opcao;
+
         do {
             exibirMenu();
             opcao = scanner.nextInt();
-            scanner.nextLine(); // Consumir a quebra de linha
+            scanner.nextLine(); // Consumir quebra de linha
 
             switch (opcao) {
-                case 1:
-                    cadastrarCliente();
-                    break;
-                case 2:
-                    listarClientes();
-                    break;
-                case 3:
-                    removerCliente();
-                    break;
-                case 4:
-                    cadastrarVeiculo();
-                    break;
-                case 5:
-                    listarVeiculos();
-                    break;
-                case 6:
-                    removerVeiculo();
-                    break;
-                case 7:
-                    alugarVeiculo();
-                    break;
-                case 8:
-                    devolverVeiculo();
-                    break;
-                case 9:
-                    listarVeiculosDisponiveis();
-                    break;
-                case 10:
-                    listarVeiculosLocados();
-                    break;
-                case 0:
-                    System.out.println("Saindo do sistema...");
-                    break;
-                default:
-                    System.out.println("Opção inválida!");
+                case 1 -> cadastrarCliente();
+                case 2 -> listarClientes();
+                case 3 -> cadastrarProduto();
+                case 4 -> listarProdutos();
+                case 5 -> adquirirProduto();
+                case 6 -> devolverProduto();
+                case 0 -> System.out.println("Encerrando o sistema...");
+                default -> System.out.println("Opção inválida! Tente novamente.");
             }
         } while (opcao != 0);
-
-        scanner.close();
     }
 
     private static void exibirMenu() {
-        System.out.println("\n=== MENU DE OPÇÕES ===");
-        System.out.println("1. Cadastrar cliente");
-        System.out.println("2. Listar clientes");
-        System.out.println("3. Remover cliente");
-        System.out.println("4. Cadastrar veículo");
-        System.out.println("5. Listar veículos");
-        System.out.println("6. Remover veículo");
-        System.out.println("7. Alugar veículo");
-        System.out.println("8. Devolver veículo alugado");
-        System.out.println("9. Listar veículos disponíveis");
-        System.out.println("10. Listar veículos locados");
+        System.out.println("\n=== Menu Principal ===");
+        System.out.println("1. Cadastrar Cliente");
+        System.out.println("2. Listar Clientes");
+        System.out.println("3. Cadastrar Produto");
+        System.out.println("4. Listar Produtos");
+        System.out.println("5. Adquirir Produto");
+        System.out.println("6. Devolver Produto");
         System.out.println("0. Sair");
         System.out.print("Escolha uma opção: ");
     }
 
     private static void cadastrarCliente() {
-        System.out.print("Nome do cliente: ");
-        String nome = scanner.nextLine();
-        System.out.println("Pessoa física (1) ou Pessoa Jurídica (2)?");
+        System.out.print("Digite o tipo de cliente (1 - Pessoa Física, 2 - Pessoa Jurídica): ");
         int tipoCliente = scanner.nextInt();
-        while (tipoCliente != 1 && tipoCliente != 2) {
-            System.out.println("Pessoa física (1) ou Pessoa Jurídica (2)?");
-            tipoCliente = scanner.nextInt();
-        }
-        String documento = "";
-        switch (tipoCliente) {
-                case 1: {
-                    System.out.print("Favor inserir o CPF (11 dígitos): ");
-                    scanner.nextLine();
-                    documento = scanner.nextLine();
-                        while (documento.length() != 11) {
-                            System.out.print("Favor inserir o CPF (11 dígitos): ");
-                            documento = scanner.nextLine();
-                    }
-                        break;
-                }
-                case 2: {
-                    System.out.print("Documento CNPJ: ");
-                    scanner.nextLine();
-                    documento = scanner.nextLine();
-                    while (documento.length() != 14) {
-                        System.out.print("Favor inserir o CNPJ (14 dígitos): ");
-                        documento = scanner.nextLine();
-                    }
-                    break;
-                }
-        }
+        scanner.nextLine(); // Consumir quebra de linha
 
-        System.out.print("Endereço: ");
+        System.out.print("Digite o ID do cliente: ");
+        String id = scanner.nextLine();
+        System.out.print("Digite o nome do cliente: ");
+        String nome = scanner.nextLine();
+        System.out.print("Digite o documento do cliente: ");
+        String documento = scanner.nextLine();
+        System.out.print("Digite o endereço do cliente: ");
         String endereco = scanner.nextLine();
-        System.out.print("Telefone: ");
+        System.out.print("Digite o telefone do cliente: ");
         String telefone = scanner.nextLine();
 
-        Cliente cliente = new Cliente(String.valueOf(clientes.size() + 1), nome, documento, endereco, telefone);
+        Cliente cliente;
+        if (tipoCliente == 1) {
+            cliente = new PessoaFisica(id, nome, documento, endereco, telefone);
+        } else if (tipoCliente == 2) {
+            cliente = new PessoaJuridica(id, nome, documento, endereco, telefone);
+        } else {
+            System.out.println("Tipo de cliente inválido!");
+            return;
+        }
+
         clientes.add(cliente);
         System.out.println("Cliente cadastrado com sucesso!");
     }
 
     private static void listarClientes() {
         if (clientes.isEmpty()) {
-            System.out.println("Não há clientes cadastrados.");
-        } else {
-            System.out.println("=== LISTA DE CLIENTES ===");
-            for (Cliente cliente : clientes) {
-                System.out.println("ID: " + cliente.getId() + ", Nome: " + cliente.getNome() + ", Documento: " + cliente.getDocumento());
-            }
+            System.out.println("Nenhum cliente cadastrado.");
+            return;
         }
-    }
 
-    private static void removerCliente() {
-        System.out.print("Digite o ID do cliente a ser removido: ");
-        String id = scanner.nextLine();
-        Cliente clienteRemover = null;
+        System.out.println("\n=== Lista de Clientes ===");
         for (Cliente cliente : clientes) {
-            if (cliente.getId().equals(id)) {
-                clienteRemover = cliente;
-                break;
-            }
-        }
-        if (clienteRemover != null) {
-            clientes.remove(clienteRemover);
-            System.out.println("Cliente removido com sucesso!");
-        } else {
-            System.out.println("Cliente não encontrado.");
+            System.out.printf("ID: %s | Nome: %s | Documento: %s | Endereço: %s | Telefone: %s%n",
+                    cliente.getId(), cliente.getNome(), cliente.getDocumento(), cliente.endereco, cliente.telefone);
         }
     }
 
-    private static void cadastrarVeiculo() {
-        System.out.println("Qual o tipo do veículo?");
-        System.out.println("1. Caminhao");
-        System.out.println("2. Carro Comum");
-        System.out.println("3. Carro Premium");
-        System.out.println("4. Carro SUV");
-        System.out.println("5. Moto");
-        int tipoVeiculo = scanner.nextInt();
-        while (tipoVeiculo < 1 || tipoVeiculo > 5) {
-            System.out.println("Insira um número válido:");
-            tipoVeiculo = scanner.nextInt();
-        }
+    private static void cadastrarProduto() {
+        System.out.print("Digite o tipo de produto (1 - Impressora, 2 - Mouse, 3 - Notebook, 4 - Personal Computer, 5 - Teclado): ");
+        int tipoProduto = scanner.nextInt();
+        scanner.nextLine(); // Consumir quebra de linha
 
-        System.out.print("Modelo do veículo: ");
-        scanner.nextLine();
+        System.out.print("Digite o modelo do produto: ");
         String modelo = scanner.nextLine();
-        System.out.print("Placa: ");
-        String placa = scanner.nextLine();
-        System.out.print("Valor da diária: ");
-        double valorDiaria = scanner.nextDouble();
-        scanner.nextLine(); // Consumir a quebra de linha
+        System.out.print("Digite o código de barras do produto: ");
+        String codigoDeBarras = scanner.nextLine();
+        System.out.print("Digite o valor do produto: ");
+        double valor = scanner.nextDouble();
 
-        switch (tipoVeiculo) {
-            case 1:
-                Caminhao caminhao = new Caminhao(modelo, placa, valorDiaria);
-                veiculos.add(caminhao);
-                break;
-            case 2:
-                CarroComum carroComum = new CarroComum(modelo, placa, valorDiaria);
-                veiculos.add(carroComum);
-                break;
-            case 3:
-                CarroPremium carroPremium = new CarroPremium(modelo, placa, valorDiaria);
-                veiculos.add(carroPremium);
-                break;
-            case 4:
-                CarroSUV carroSUV = new CarroSUV(modelo, placa, valorDiaria);
-                veiculos.add(carroSUV);
-                break;
-            case 5:
-                Moto moto = new Moto(modelo, placa, valorDiaria);
-                veiculos.add(moto);
-                break;
-        }
-        System.out.println("Veículo cadastrado com sucesso!");
-    }
-
-    private static void listarVeiculos() {
-        if (veiculos.isEmpty()) {
-            System.out.println("Não há veículos cadastrados.");
-        } else {
-            System.out.println("=== LISTA DE VEÍCULOS ===");
-            for (Veiculo veiculo : veiculos) {
-                System.out.println("Modelo: " + veiculo.getModelo() + ", Placa: " + veiculo.getPlaca() + ", Disponível: " + (veiculo.isDisponivel() ? "Sim" : "Não"));
+        Produto produto;
+        switch (tipoProduto) {
+            case 1 -> produto = new Impressora(modelo, codigoDeBarras, valor);
+            case 2 -> produto = new Mouse(modelo, codigoDeBarras, valor);
+            case 3 -> produto = new Notebook(modelo, codigoDeBarras, valor);
+            case 4 -> produto = new PersonalComputer(modelo, codigoDeBarras, valor);
+            case 5 -> produto = new Teclado(modelo, codigoDeBarras, valor);
+            default -> {
+                System.out.println("Tipo de produto inválido!");
+                return;
             }
         }
+
+        produtos.add(produto);
+        System.out.println("Produto cadastrado com sucesso!");
     }
 
-    private static void removerVeiculo() {
-        System.out.print("Digite a placa do veículo a ser removido: ");
-        String placa = scanner.nextLine();
-        Veiculo veiculoRemover = null;
-        for (Veiculo veiculo : veiculos) {
-            if (veiculo.getPlaca().equals(placa)) {
-                veiculoRemover = veiculo;
-                break;
-            }
+    private static void listarProdutos() {
+        if (produtos.isEmpty()) {
+            System.out.println("Nenhum produto cadastrado.");
+            return;
         }
-        if (veiculoRemover != null) {
-            veiculos.remove(veiculoRemover);
-            System.out.println("Veículo removido com sucesso!");
-        } else {
-            System.out.println("Veículo não encontrado.");
+
+        System.out.println("\n=== Lista de Produtos ===");
+        for (Produto produto : produtos) {
+            System.out.printf("Modelo: %s | Código de Barras: %s | Valor: R$ %.2f | Tipo: %s | Disponível: %s%n",
+                    produto.getModelo(), produto.getCodigoDeBarras(), produto.getValor(),
+                    produto.getTipo(), produto.isDisponivel() ? "Sim" : "Não");
         }
     }
 
-    private static void alugarVeiculo() {
+    private static void adquirirProduto() {
         System.out.print("Digite o ID do cliente: ");
         String idCliente = scanner.nextLine();
-        System.out.print("Digite a placa do veículo: ");
-        String placaVeiculo = scanner.nextLine();
+        System.out.print("Digite o código de barras do produto: ");
+        String codigoDeBarrasProduto = scanner.nextLine();
 
         Cliente cliente = null;
-        Veiculo veiculo = null;
+        Produto produto = null;
 
         for (Cliente c : clientes) {
             if (c.getId().equals(idCliente)) {
@@ -238,67 +146,62 @@ public class Main {
             }
         }
 
-        for (Veiculo v : veiculos) {
-            if (v.getPlaca().equals(placaVeiculo) && v.isDisponivel()) {
-                veiculo = v;
+        for (Produto p : produtos) {
+            if (p.getCodigoDeBarras().equals(codigoDeBarrasProduto) && p.isDisponivel()) {
+                produto = p;
                 break;
             }
         }
 
-        if (cliente != null && veiculo != null) {
-            veiculo.alugar();
-            System.out.println("Veículo alugado com sucesso para " + cliente.getNome());
+        if (cliente != null && produto != null) {
+            System.out.println("\nEscolha o método de pagamento:");
+            System.out.println("1. Boleto");
+            System.out.println("2. Pix");
+            System.out.println("3. Cartão de Crédito");
+            int opcaoPagamento = scanner.nextInt();
+            scanner.nextLine(); // Consumir quebra de linha
+
+            MetodoPagamento metodoPagamento;
+
+            switch (opcaoPagamento) {
+                case 1 -> metodoPagamento = new Boleto();
+                case 2 -> metodoPagamento = new Pix();
+                case 3 -> metodoPagamento = new CartaoDeCredito();
+                default -> {
+                    System.out.println("Opção inválida!");
+                    return;
+                }
+            }
+
+            if (metodoPagamento.processarPagamento(produto.getValor())) {
+                produto.adquirir();
+                System.out.printf("\nProduto '%s' adquirido com sucesso por '%s'!%n", produto.getModelo(), cliente.getNome());
+            } else {
+                System.out.println("\nFalha no pagamento. Produto não adquirido.");
+            }
         } else {
-            System.out.println("Não foi possível realizar a locação. Verifique os dados informados.");
+            System.out.println("\nNão foi possível realizar a aquisição. Verifique os dados informados.");
         }
     }
 
-    private static void devolverVeiculo() {
-        System.out.print("Digite a placa do veículo a ser devolvido: ");
-        String placaVeiculo = scanner.nextLine();
+    private static void devolverProduto() {
+        System.out.print("Digite o código de barras do produto a ser devolvido: ");
+        String codigoDeBarrasProduto = scanner.nextLine();
 
-        Veiculo veiculo = null;
-        for (Veiculo v : veiculos) {
-            if (v.getPlaca().equals(placaVeiculo) && !v.isDisponivel()) {
-                veiculo = v;
+        Produto produto = null;
+
+        for (Produto p : produtos) {
+            if (p.getCodigoDeBarras().equals(codigoDeBarrasProduto)) {
+                produto = p;
                 break;
             }
         }
 
-        if (veiculo != null) {
-            veiculo.devolver();
-            System.out.println("Veículo devolvido com sucesso!");
+        if (produto != null) {
+            produto.devolver();
+            System.out.printf("\nProduto '%s' devolvido com sucesso!%n", produto.getModelo());
         } else {
-            System.out.println("Veículo não encontrado ou não está alugado.");
-        }
-    }
-
-    private static void listarVeiculosDisponiveis() {
-        System.out.println("=== VEÍCULOS DISPONÍVEIS ===");
-        boolean temDisponivel = false;
-        for (Veiculo veiculo : veiculos) {
-            if (veiculo.isDisponivel()) {
-                System.out.println("Modelo: " + veiculo.getModelo() + ", Placa: " + veiculo.getPlaca());
-                temDisponivel = true;
-            }
-        }
-        if (!temDisponivel) {
-            System.out.println("Não há veículos disponíveis no momento.");
-        }
-    }
-
-    private static void listarVeiculosLocados() {
-        System.out.println("=== VEÍCULOS LOCADOS ===");
-        boolean temLocado = false;
-        for (Veiculo veiculo : veiculos) {
-            if (!veiculo.isDisponivel()) {
-                System.out.println("Modelo: " + veiculo.getModelo() + ", Placa: " + veiculo.getPlaca());
-                temLocado = true;
-            }
-        }
-        if (!temLocado) {
-            System.out.println("Não há veículos locados no momento.");
+            System.out.println("\nNão foi possível encontrar o produto para devolução.");
         }
     }
 }
-

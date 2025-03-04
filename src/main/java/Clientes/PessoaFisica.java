@@ -1,6 +1,6 @@
 package Clientes;
 
-import Veiculos.Veiculo;
+import Produtos.Produto;
 
 public class PessoaFisica extends Cliente {
 
@@ -9,8 +9,7 @@ public class PessoaFisica extends Cliente {
     }
 
     @Override
-    public void exibirDetalhesLocacao(Veiculo veiculo) {
-        System.out.println(this.getNome() + " alugou o veículo " + veiculo.getModelo());
+    public void exibirDetalhesAquisicao(Produto produto) {
+        System.out.println(this.getNome() + " adquiriu o produto " + produto.getModelo());
     }
 }
-

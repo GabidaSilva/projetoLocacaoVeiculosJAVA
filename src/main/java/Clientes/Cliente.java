@@ -1,13 +1,12 @@
 package Clientes;
-
-import Veiculos.Veiculo;
+import Produtos.Produto;
 
 public class Cliente {
     protected String id;
     protected String nome;
     protected String documento;
-    protected String endereco;
-    protected String telefone;
+    public String endereco;
+    public String telefone;
     protected int diasLocacao;
 
     // Construtor
@@ -34,8 +33,8 @@ public class Cliente {
     }
 
 
-    public void exibirDetalhesLocacao(Veiculo veiculo) {
-        System.out.println(this.nome + " alugou o veículo " + veiculo.getModelo());
+    public void exibirDetalhesAquisicao(Produto produto) {
+        System.out.println(this.nome + " adquiriu o produto " + produto.getModelo());
     }
 
     public String getId() {
